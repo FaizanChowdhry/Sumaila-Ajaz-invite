@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./wedding-invite-copy-2
+          path: .
 
       - id: deployment
         uses: actions/deploy-pages@v4
