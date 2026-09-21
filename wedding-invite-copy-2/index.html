@@ -2154,7 +2154,7 @@
             const fallbackStop = () => { fallbackDrawing = false; fallbackPoint = null; };
             heartCanvas.addEventListener('mousedown', fallbackStart); heartCanvas.addEventListener('mousemove', fallbackErase); heartCanvas.addEventListener('touchstart', fallbackStart, { passive: false }); heartCanvas.addEventListener('touchmove', fallbackErase, { passive: false }); addEventListener('mouseup', fallbackStop); addEventListener('touchend', fallbackStop);
         });
-        document.querySelector('#share').addEventListener('click', () => { const invitationUrl = 'https://faizanchowdhry.github.io/faizan-zia-invite/wedding-invite-copy-2/'; const message = `Join Sumaila & Ajaz for their Nikah Reception on 30th November and Dawate-E-Walima on 1st December.\n\n${invitationUrl}`; window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank', 'noopener'); });
+        document.querySelector('#share').addEventListener('click', () => { const invitationUrl = 'https://faizanchowdhry.github.io/Sumaila-Ajaz-invite/'; const message = `Join Sumaila & Ajaz for their Nikah Reception on 30th November and Dawate-E-Walima on 1st December.\n\n${invitationUrl}`; window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank', 'noopener'); });
         const rsvpForm = document.querySelector('#rsvp');
         const guestTotal = document.querySelector('#guestTotal');
         const guestList = document.querySelector('#guestList');
