@@ -2128,7 +2128,7 @@
         function openInvite() { startMusic(); if (page.classList.contains('open-page')) return; envelope.classList.add('opened'); setTimeout(() => { page.classList.add('open-page'); setTimeout(() => { document.querySelector('#content').scrollIntoView({ behavior: 'smooth' }); setTimeout(resizeCanvas, 100); setTimeout(resizeCanvas, 500); }, 10000); }, 1000) }
         envelope.addEventListener('pointerdown', startMusic, { passive: true }); envelope.addEventListener('click', openInvite); envelope.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { startMusic(); openInvite() } });
         const target = new Date('2026-11-30T19:00:00+05:30').getTime(); let countdownStarted = false; function updateCountdown() { if (!countdownStarted) return; let distance = Math.max(0, target - Date.now()); const day = Math.floor(distance / 86400000); distance %= 86400000; const hour = Math.floor(distance / 3600000); distance %= 3600000; const minute = Math.floor(distance / 60000); const second = Math.floor(distance / 1000) % 60; document.querySelector('#days').textContent = String(day).padStart(2, '0'); document.querySelector('#hours').textContent = String(hour).padStart(2, '0'); document.querySelector('#minutes').textContent = String(minute).padStart(2, '0'); document.querySelector('#seconds').textContent = String(second).padStart(2, '0') } function startCountdown() { if (countdownStarted) return; countdownStarted = true; document.querySelector('.countdown-timer').classList.add('is-started'); updateCountdown(); } setInterval(updateCountdown, 1000);
-        const canvas = document.querySelector('#scratchCanvas') || document.createElement('canvas'); const context = canvas.getContext('2d', { willReadFrequently: true }); const scratchWrap = document.querySelector('#scratchWrap') || document.createElement('div'); const RSVP_EMAIL = 'chowdhary.faizan60@gmail.com'; const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwrlz7Z9_p8W5UzZPd3PDTCweOCTBGW4wPG6fGBmL-dlXc_yHly8PFy_qBJp5RhsKMACg/exec'; let drawing = false; let scratched = 0; function resizeCanvas() { const width = scratchWrap.offsetWidth || scratchWrap.clientWidth || 300; const height = scratchWrap.offsetHeight || scratchWrap.clientHeight || 150; canvas.width = width; canvas.height = height; canvas.style.width = width + 'px'; canvas.style.height = height + 'px'; context.setTransform(1, 0, 0, 1, 0, 0); context.clearRect(0, 0, canvas.width, canvas.height); context.fillStyle = 'rgba(173, 138, 92, 0.96)'; context.fillRect(0, 0, canvas.width, canvas.height); context.fillStyle = '#f5e7c8'; context.font = '600 11px Montserrat'; context.textAlign = 'center'; context.fillText('✦  SCRATCH HERE  ✦', canvas.width / 2, canvas.height / 2 + 4); }
+        const canvas = document.querySelector('#scratchCanvas') || document.createElement('canvas'); const context = canvas.getContext('2d', { willReadFrequently: true }); const scratchWrap = document.querySelector('#scratchWrap') || document.createElement('div'); let drawing = false; let scratched = 0; function resizeCanvas() { const width = scratchWrap.offsetWidth || scratchWrap.clientWidth || 300; const height = scratchWrap.offsetHeight || scratchWrap.clientHeight || 150; canvas.width = width; canvas.height = height; canvas.style.width = width + 'px'; canvas.style.height = height + 'px'; context.setTransform(1, 0, 0, 1, 0, 0); context.clearRect(0, 0, canvas.width, canvas.height); context.fillStyle = 'rgba(173, 138, 92, 0.96)'; context.fillRect(0, 0, canvas.width, canvas.height); context.fillStyle = '#f5e7c8'; context.font = '600 11px Montserrat'; context.textAlign = 'center'; context.fillText('✦  SCRATCH HERE  ✦', canvas.width / 2, canvas.height / 2 + 4); }
         function revealScratchStatus() { const data = context.getImageData(0, 0, canvas.width, canvas.height).data; let transparentPixels = 0; for (let index = 3; index < data.length; index += 4) { if (data[index] < 40) transparentPixels += 1 } const revealRatio = transparentPixels / (canvas.width * canvas.height); if (revealRatio > 0.12) scratchWrap.classList.add('scratched'); }
         let lastPoint = null;
         function scratch(event) { if (!drawing) return; const rect = canvas.getBoundingClientRect(); const point = { x: Math.max(0, Math.min(event.clientX - rect.left, rect.width)), y: Math.max(0, Math.min(event.clientY - rect.top, rect.height)) }; context.globalCompositeOperation = 'destination-out'; context.lineCap = 'round'; context.lineJoin = 'round'; context.lineWidth = 40; context.beginPath(); if (lastPoint) { context.moveTo(lastPoint.x, lastPoint.y); context.lineTo(point.x, point.y); } else { context.moveTo(point.x, point.y); context.lineTo(point.x, point.y); } context.stroke(); context.globalCompositeOperation = 'source-over'; lastPoint = point; revealScratchStatus(); }
@@ -2158,7 +2158,7 @@
         const rsvpForm = document.querySelector('#rsvp');
         const guestTotal = document.querySelector('#guestTotal');
         const guestList = document.querySelector('#guestList');
-        const guestBoardKey = 'faizan-zia-local-guest-board';
+        const guestBoardKey = 'sumaila-ajaz-local-guest-board';
         function renderGuestBoard() {
             const entries = JSON.parse(localStorage.getItem(guestBoardKey) || '[]');
             const attending = entries.filter(entry => entry.attendance === 'Joyfully attending');
@@ -2183,28 +2183,16 @@
                 message: formData.get('message')?.toString().trim() || ''
             };
             const success = document.querySelector('#success');
-            localStorage.setItem('faizan-zia-rsvp', JSON.stringify(payload));
+            localStorage.setItem('sumaila-ajaz-rsvp', JSON.stringify(payload));
             const entries = JSON.parse(localStorage.getItem(guestBoardKey) || '[]');
             const existingEntry = entries.findIndex(entry => entry.guestName.toLowerCase() === payload.guestName.toLowerCase());
             if (existingEntry >= 0) entries[existingEntry] = payload;
             else entries.push(payload);
             localStorage.setItem(guestBoardKey, JSON.stringify(entries));
             renderGuestBoard();
-            try {
-                if (RSVP_ENDPOINT.includes('PASTE_YOUR_DEPLOYED_SCRIPT_ID')) throw new Error('RSVP endpoint is not configured');
-                const response = await fetch(RSVP_ENDPOINT, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (!response.ok) throw new Error('RSVP delivery failed');
-                success.hidden = false;
-                rsvpForm.reset();
-            } catch (error) {
-                success.textContent = 'Your response has been saved on this device.';
-                success.hidden = false;
-                rsvpForm.reset();
-            }
+            success.textContent = 'Your response has been saved on this device.';
+            success.hidden = false;
+            rsvpForm.reset();
         });
     </script>
     <script>
